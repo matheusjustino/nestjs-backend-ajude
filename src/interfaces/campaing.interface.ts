@@ -1,4 +1,7 @@
 import { Document } from 'mongoose';
+import { IDonor } from './donor.interface';
+import { IComment } from './comment.interface';
+import { ILikeDislike } from './likeDislike.interface';
 
 export interface ICampaing extends Document {
     readonly shortName: string,
@@ -8,10 +11,10 @@ export interface ICampaing extends Document {
     readonly deadline: string,
     readonly goal: number,
     readonly amountCollected: number,
-    readonly donors: Array<any>,
+    readonly donors: Array<IDonor>,
     readonly owner: string,
-    readonly comments: Array<any>,
+    readonly comments: Array<IComment>,
     readonly totalLikes: number,
     readonly totalDislikes: number,
-    readonly likesAndDislikes: Array<any>
+    readonly likesAndDislikes: Array<ILikeDislike>
 }

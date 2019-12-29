@@ -3,7 +3,6 @@ import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { RepositoryService } from '../database/repository.service';
 // Dtos
 import { CampaingDto } from '../dtos/campaing.dto';
-
 // Interfaces
 import { IComment } from '../interfaces/comment.interface';
 import { IResponse } from '../interfaces/response.interface';
@@ -159,18 +158,18 @@ export class CampaingService {
         
         const value = valueLikeDislike[params.value];
 
-            function totalLikesAndDislikes(array: ILikeDislike[]) {
+        function totalLikesAndDislikes(array: ILikeDislike[]) {
 
-                const [likes, dislikes] = array.reduce((acc: number[], elem: ILikeDislike) => {
-                    elem.value === 1 ? acc[0] += 1 : elem.value === 2 ? acc[1] += 1 : acc;
+            const [likes, dislikes] = array.reduce((acc: number[], elem: ILikeDislike) => {
+                elem.value === 1 ? acc[0] += 1 : elem.value === 2 ? acc[1] += 1 : acc;
 
-                    return acc;
-                }, [0, 0]);
+                return acc;
+            }, [0, 0]);
                 
-                return { likes, dislikes };
+            return { likes, dislikes };
         }
 
-        function updateValues(campaing) {
+        function updateValues(campaing: CampaingDto) {
             const { likes, dislikes } = totalLikesAndDislikes(campaing.likesAndDislikes);
 
             campaing.totalLikes = likes;

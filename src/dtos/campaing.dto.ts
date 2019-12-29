@@ -1,4 +1,7 @@
 import { IsString, IsNotEmpty, IsNumber, IsArray } from 'class-validator';
+import { IComment } from '../interfaces/comment.interface';
+import { ILikeDislike } from '../interfaces/likeDislike.interface';
+import { IDonor } from '../interfaces/donor.interface';
 
 export class CampaingDto {
     @IsString()
@@ -31,7 +34,7 @@ export class CampaingDto {
 
     @IsArray()
     @IsNotEmpty()
-    donors: Array<any>
+    donors: Array<IDonor>
 
     @IsString()
     @IsNotEmpty()
@@ -39,7 +42,7 @@ export class CampaingDto {
 
     @IsArray()
     @IsNotEmpty()
-    comments: Array<any>
+    comments: Array<IComment>
 
     @IsNumber()
     @IsNotEmpty()
@@ -51,5 +54,5 @@ export class CampaingDto {
 
     @IsArray()
     @IsNotEmpty()
-    likesAndDislikes: Array<any>
+    likesAndDislikes: Array<ILikeDislike>
 }
