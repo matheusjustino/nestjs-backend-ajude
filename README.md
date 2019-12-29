@@ -1,7 +1,7 @@
 ```bash
 @autor Matheus Henrique Fernandes Justino
 
-Versão do backend feito em NodeJs e NestJs.
+Versão de backend feita em NodeJs e NestJs.
 
 Running: npm run start:dev
 ```
