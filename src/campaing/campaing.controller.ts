@@ -29,7 +29,7 @@ export class CampaingController {
     }
 
     @Get()
-    async getAllCampaings(@Res() res): Promise<any> {
+    async getAllCampaings(@Res() res): Promise<CampaingDto[]> {
         const campaings = await this.campaingService.getAllCampaings();
 
         if (campaings.length == 0) Logger.warn("Nenhuma campanha cadastrada - Method: getAllCampaings", "CampaingController");
@@ -41,7 +41,7 @@ export class CampaingController {
     }
 
     @Get(':url')
-    async getCampaingByUrl(@Res() res, @Param('url') url: string) {
+    async getCampaingByUrl(@Res() res, @Param('url') url: string): Promise<CampaingDto> {
         const campaing = await this.campaingService.getCampaingByUrl(url);
 
         res.status(HttpStatus.OK).json(campaing);
@@ -50,7 +50,7 @@ export class CampaingController {
     }
 
     @Get('substring/:substring')
-    async getCampaingsBySubtring(@Res() res, @Param('substring') substring: string) {
+    async getCampaingsBySubtring(@Res() res, @Param('substring') substring: string): Promise<CampaingDto[]> {
         const campaings = await this.campaingService.getCampaingsBySubstring(substring);
 
         res.status(HttpStatus.OK).json(campaings);
@@ -59,7 +59,7 @@ export class CampaingController {
     }
 
     @Post(':url/donate')
-    async donate(@Res() res, @Req() req, @Param('url') url: string, @Body() body) {
+    async donate(@Res() res, @Req() req, @Param('url') url: string, @Body() body): Promise<CampaingDto> {
         const campaing = await this.campaingService.makeDonation(url, body.amount, req.user.id);
 
         res.status(HttpStatus.OK).json(campaing);
@@ -103,7 +103,7 @@ export class CampaingController {
 
     @UseGuards(IsCommentOwner)
     @Delete(':url/delete-comment')
-    async deleteComment(@Res() res, @Param('url') url: string, @Body() idComment) {
+    async deleteComment(@Res() res, @Param('url') url: string, @Body() idComment): Promise<CampaingDto> {
         const campaing = await this.campaingService.deleteComment(url, idComment);
 
         res.status(HttpStatus.OK).json(campaing);
@@ -114,7 +114,7 @@ export class CampaingController {
     }
 
     @Post(':url/response')
-    async response(@Res() res, @Req() req, @Param('url') url: string, @Body() response) {
+    async response(@Res() res, @Req() req, @Param('url') url: string, @Body() response): Promise<CampaingDto> {
         response.response.owner = req.user.id;
 
         const campaing = await this.campaingService.response(url, response);
@@ -125,7 +125,7 @@ export class CampaingController {
     }
 
     @Delete(':url/delete-response')
-    async deleteResponse(@Res() res, @Req() req, @Param('url') url: string, @Body() info) {
+    async deleteResponse(@Res() res, @Req() req, @Param('url') url: string, @Body() info): Promise<CampaingDto> {
         const { idComment, idResponse } = info;
         
         const campaing = await this.campaingService.deleteResponse(url, idComment, idResponse, req.user.id);

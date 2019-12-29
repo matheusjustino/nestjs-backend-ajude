@@ -17,7 +17,7 @@ import { CampaingService } from './campaing/campaing.service';
 
 @Module({
   imports: [DatabaseModule, AuthModule, UserModule, CampaingModule],
-  controllers: [AppController, CampaingController],
-  providers: [AppService, CampaingService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

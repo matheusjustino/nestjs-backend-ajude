@@ -5,6 +5,5 @@ export interface IUser extends Document {
     readonly lastName: string,
     readonly email: string,
     readonly creditCart: string,
-    readonly password: string,
-    readonly campaingsThatHelped: Array<any>
+    readonly password: string
 }

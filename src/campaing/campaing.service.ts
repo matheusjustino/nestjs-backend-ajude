@@ -174,13 +174,12 @@ export class CampaingService {
             return campaing;
         }
 
-        for (let i = 0; i < campaing.likesAndDislikes.length; i++) {
-            const element = campaing.likesAndDislikes[i];
+        for (let element of campaing.likesAndDislikes) {
             if (element.owner == idUser) {
                 element.value = element.value == value ? 0 : value;
 
-                await this.repositoryService.Campaings.updateOne({ url: params.url },  updateValues(campaing));
-                
+                await this.repositoryService.Campaings.updateOne({ url: params.url }, updateValues(campaing));
+
                 return campaing;
             }
         }

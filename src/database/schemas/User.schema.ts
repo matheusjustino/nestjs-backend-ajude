@@ -29,10 +29,7 @@ const UserSchema = new Schema({
         type: String,
         require: true,
         default: ''
-    },
-    campaingsThatHelped: [{
-        idCampaing: String
-    }]
+    }
 }, {
     timestamps: true
 });
