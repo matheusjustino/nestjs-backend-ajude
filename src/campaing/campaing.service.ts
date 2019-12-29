@@ -7,6 +7,7 @@ import { CampaingDto } from '../dtos/campaing.dto';
 // Interfaces
 import { IComment } from '../interfaces/comment.interface';
 import { IResponse } from '../interfaces/response.interface';
+import { ILikeDislike } from '../interfaces/likeDislike.interface';
 
 const valueLikeDislike: { [key: string]: number } = {
     like: 1,
@@ -158,11 +159,15 @@ export class CampaingService {
         
         const value = valueLikeDislike[params.value];
 
-        function totalLikesAndDislikes(array: Array<any>) {
-            const likes = array.reduce((acc: number, elem: any) => elem.value === 1 ? acc += 1 : acc += 0, 0);
-            const dislikes = array.reduce((acc: number, elem: any) => elem.value === 2 ? acc += 1 : acc += 0, 0);
+            function totalLikesAndDislikes(array: ILikeDislike[]) {
 
-            return { likes, dislikes };
+                const [likes, dislikes] = array.reduce((acc: number[], elem: ILikeDislike) => {
+                    elem.value === 1 ? acc[0] += 1 : elem.value === 2 ? acc[1] += 1 : acc;
+
+                    return acc;
+                }, [0, 0]);
+                
+                return { likes, dislikes };
         }
 
         function updateValues(campaing) {
