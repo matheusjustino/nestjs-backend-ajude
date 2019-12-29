@@ -28,7 +28,7 @@ export class AuthService {
 
         const userR: IUser = await this.userService.getUserByEmail(user.email);
 
-        if (!userR) throw new BadRequestException("Usuário não cadastrado");
+        if (!userR) throw new BadRequestException("User not found");
 
         if (!await compare(user.password, userR.password)) throw new UnauthorizedException("Email or password invalid!");
 
