@@ -3,9 +3,15 @@ import { RepositoryService } from '../database/repository.service';
 import { IUser } from '../interfaces/User.interface';
 import { UserDto } from '../dtos/user.dto';
 import { ICampaing } from 'src/interfaces/campaing.interface';
+import { EmailService } from '../mailer/email.service';
 
 @Injectable()
 export class UserService {
+    constructor(
+        private readonly repositoryService: RepositoryService,
+        private readonly emailService: EmailService
+    ) { };
+    
     private readonly normalizeCampaingsThatHelped = async (idUser: string, campaings: ICampaing[]) => {
         let result = [];
 
@@ -28,10 +34,11 @@ export class UserService {
         return result;
     }
 
-    constructor(private readonly repositoryService: RepositoryService) { };
 
     async createUser(userDto: UserDto): Promise<IUser> {
         const newUser = new this.repositoryService.Users(userDto);
+
+        this.emailService.welcomeEmail(userDto.email, userDto.firstName, userDto.lastName);
 
         return await newUser.save();
     }

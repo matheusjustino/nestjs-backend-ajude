@@ -49,6 +49,18 @@ export class CampaingController {
         return campaing;
     }
 
+    @UseGuards(IsCampaingOwner)
+    @Put(':url')
+    async updateCampaing(@Res() res, @Param('url') url: string, @Body() info): Promise<CampaingDto> {
+        const campaing = await this.campaingService.updateCampaing(url, info);
+
+        res.status(HttpStatus.OK).json(campaing);
+
+        Logger.log("Campanha atualizada - Method: updateCampaing", "CampaingController");
+        
+        return campaing;
+    }
+
     @Get('substring/:substring')
     async getCampaingsBySubtring(@Res() res, @Param('substring') substring: string): Promise<CampaingDto[]> {
         const campaings = await this.campaingService.getCampaingsBySubstring(substring);
@@ -67,31 +79,10 @@ export class CampaingController {
         return campaing;
     }
 
-    @UseGuards(IsCampaingOwner)
-    @Put(':url')
-    async updateCampaing(@Res() res, @Param('url') url: string, @Body() info): Promise<CampaingDto> {
-        const campaing = await this.campaingService.updateCampaing(url, info);
-
-        res.status(HttpStatus.OK).json(campaing);
-
-        Logger.log("Campanha atualizada - Method: updateCampaing", "CampaingController");
-        
-        return campaing;
-    }
-
-    @Post(':url/:value')
-    async likeOrDislike(@Res() res, @Req() req, @Param() params): Promise<CampaingDto> {
-        const campaing = await this.campaingService.likeOrDislike(params, req.user.id);
-
-        res.status(HttpStatus.OK).json(campaing);
-
-        return campaing;
-    }
-
     @Post(':url/comment')
     async comment(@Res() res, @Req() req, @Param('url') url: string, @Body() comment): Promise<CampaingDto> {
         comment.owner = req.user.id;
-
+        console.log("entrou aqui", comment);
         const campaing = await this.campaingService.comment(url, comment);
 
         res.status(HttpStatus.OK).json(campaing);
@@ -129,6 +120,15 @@ export class CampaingController {
         const { idComment, idResponse } = info;
         
         const campaing = await this.campaingService.deleteResponse(url, idComment, idResponse, req.user.id);
+
+        res.status(HttpStatus.OK).json(campaing);
+
+        return campaing;
+    }
+
+    @Post(':url/:value')
+    async likeOrDislike(@Res() res, @Req() req, @Param() params): Promise<CampaingDto> {
+        const campaing = await this.campaingService.likeOrDislike(params, req.user.id);
 
         res.status(HttpStatus.OK).json(campaing);
 

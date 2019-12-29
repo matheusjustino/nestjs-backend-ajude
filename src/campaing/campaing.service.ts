@@ -15,6 +15,8 @@ const valueLikeDislike: { [key: string]: number } = {
 
 @Injectable()
 export class CampaingService {
+    constructor(private readonly repositoryService: RepositoryService) {}
+    
     private readonly dateToDonate = () => {
         const [date, moment] = new Date().toLocaleString().split(' ');
         const [year, month, day] = date.includes('-') ? date.split('-') : date.split('/');
@@ -46,7 +48,6 @@ export class CampaingService {
         return campaing;
     }
 
-    constructor(private readonly repositoryService: RepositoryService) {}
 
     async createCampaing(campaing: CampaingDto): Promise<CampaingDto> {
         Logger.log("Criando nova campanha - Method: createCampaing", "CampaingService");

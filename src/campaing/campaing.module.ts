@@ -8,6 +8,6 @@ import { AuthModule } from '../auth/auth.module';
     imports: [DatabaseModule, AuthModule],
     controllers: [CampaingController],
     providers: [CampaingService],
-    exports: [CampaingService, DatabaseModule]
+    exports: [CampaingService]
 })
 export class CampaingModule {}

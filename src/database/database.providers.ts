@@ -10,36 +10,34 @@ import { ICampaing } from '../interfaces/campaing.interface';
 import { IComment } from '../interfaces/comment.interface';
 import { IResponse } from '../interfaces/response.interface';
 
+import { databaseConfig } from '../config/configs';
+
 export const databaseProviders = [
   {
-    provide: 'DATABASE_CONNECTION',
+    provide: databaseConfig.provide,
     useFactory: async (): Promise<typeof mongoose> => {
-      const connection = await mongoose.connect(process.env.DATABASE_URL, {
-        useNewUrlParser: true,
-				useUnifiedTopology: true,
-				useCreateIndex: true
-      });
+      const connection = await mongoose.connect(databaseConfig.dbUrl, databaseConfig.options);
       return connection;
     }
   },
   {
     provide: 'UserModel',
     useFactory: (connection: mongoose.Connection) => connection.model<IUser>('users', UserSchema),
-    inject: ['DATABASE_CONNECTION']
+    inject: [databaseConfig.provide]
   },
   {
     provide: 'CampaingModel',
     useFactory: (connection: mongoose.Connection) => connection.model<ICampaing>('campaings', CampaingSchema),
-    inject: ['DATABASE_CONNECTION']
+    inject: [databaseConfig.provide]
   },
   {
     provide: 'CommentModel',
     useFactory: (connection: mongoose.Connection) => connection.model<IComment>('comment', CommentSchema),
-    inject: ['DATABASE_CONNECTION']
+    inject: [databaseConfig.provide]
   },
   {
     provide: 'ResponseModel',
     useFactory: (connection: mongoose.Connection) => connection.model<IResponse>('response', ResponseSchema),
-    inject: ['DATABASE_CONNECTION']
+    inject: [databaseConfig.provide]
   }
 ];
